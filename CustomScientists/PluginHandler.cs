@@ -66,7 +66,7 @@ namespace Mistaken.CustomScientists
 #pragma warning disable SA1118 // Parameter should not span multiple lines
                 Mistaken.CustomHierarchii.HierarchyHandler.CustomPlayerComperers.Add(
                     "dfm_comparer",
-                    (1, (Player p1, Player p2) =>
+                    (5000, (Player p1, Player p2) =>
                             {
                                 if (p1.Role != RoleType.Scientist && p2.Role != RoleType.Scientist)
                                     return CustomHierarchii.HierarchyHandler.CompareResult.NO_ACTION;

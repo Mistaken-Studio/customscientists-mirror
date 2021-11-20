@@ -5,8 +5,10 @@
 // -----------------------------------------------------------------------
 
 using System.Collections.Generic;
+using System.Reflection;
 using Exiled.API.Features;
 using Mistaken.API.CustomRoles;
+using Mistaken.CustomScientists.Handlers;
 
 namespace Mistaken.CustomScientists.Classes
 {
@@ -34,7 +36,21 @@ namespace Mistaken.CustomScientists.Classes
             base.AddRole(player);
             player.InfoArea = ~PlayerInfoArea.Role;
 
+            // TODO: Dodać info o klasie na infoarea i gui.
+            MethodInfo sendSpawnMessage = Server.SendSpawnMessage;
+            if (sendSpawnMessage != null)
+            {
+                if (player.ReferenceHub.networkIdentity.connectionToClient == null)
+                    return;
+                sendSpawnMessage.Invoke(null, new object[]
+                {
+                        DeputyFacalityManagerHandler.EscapeLock.netIdentity,
+                        player.Connection,
+                });
+            }
         }
+
+        internal static MethodInfo RemoveFromVisList { get; set; } = null;
 
         /// <inheritdoc/>
         protected override bool KeepInventoryOnSpawn { get; set; } = false;
@@ -53,6 +69,7 @@ namespace Mistaken.CustomScientists.Classes
             ItemType.Radio.ToString(),
             ItemType.ArmorLight.ToString(),
             API.CustomItems.MistakenCustomItem.Get(API.CustomItems.MistakenCustomItems.DEPUTY_FACILITY_MANAGER_KEYCARD).Name,
+            API.CustomItems.MistakenCustomItem.Get(API.CustomItems.MistakenCustomItems.SNAV_ULTIMATE)?.Name,
         };
     }
 }
