@@ -32,6 +32,8 @@ namespace Mistaken.CustomScientists.Classes
         public override void AddRole(Player player)
         {
             base.AddRole(player);
+            player.InfoArea = ~PlayerInfoArea.Role;
+
         }
 
         /// <inheritdoc/>
@@ -50,6 +52,7 @@ namespace Mistaken.CustomScientists.Classes
             ItemType.Medkit.ToString(),
             ItemType.Radio.ToString(),
             ItemType.ArmorLight.ToString(),
+            API.CustomItems.MistakenCustomItem.Get(API.CustomItems.MistakenCustomItems.DEPUTY_FACILITY_MANAGER_KEYCARD).Name,
         };
     }
 }
