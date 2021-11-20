@@ -44,8 +44,8 @@ namespace Mistaken.CustomScientists.Classes
                     return;
                 sendSpawnMessage.Invoke(null, new object[]
                 {
-                        DeputyFacalityManagerHandler.EscapeLock.netIdentity,
-                        player.Connection,
+                    DeputyFacalityManagerHandler.EscapeLock.netIdentity,
+                    player.Connection,
                 });
             }
         }

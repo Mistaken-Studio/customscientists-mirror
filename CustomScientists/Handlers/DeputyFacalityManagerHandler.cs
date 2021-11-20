@@ -28,9 +28,11 @@ namespace Mistaken.CustomScientists.Handlers
         public DeputyFacalityManagerHandler(IPlugin<IConfig> plugin)
             : base(plugin)
         {
+            new Items.DeputyFacalityManagerKeycard().TryRegister();
+            new Classes.DeputyFacalityManager().TryRegister();
         }
 
-        public override string Name => throw new NotImplementedException();
+        public override string Name => "DeputyFacalityManager";
 
         public override void OnDisable()
         {
