@@ -5,10 +5,8 @@
 // -----------------------------------------------------------------------
 
 using System;
-using System.Linq;
-using Exiled.API.Enums;
 using Exiled.API.Features;
-using Mistaken.CustomScientists.Handlers;
+
 using static Mistaken.CustomHierarchy.HierarchyHandler;
 
 namespace Mistaken.CustomScientists
@@ -18,9 +16,9 @@ namespace Mistaken.CustomScientists
         internal static void EnableCustomHierarchyIntegration()
         {
             PluginHandler.CustomHierarchyAvailable = true;
-            Log.Info("Enabling CustomHierarchy integration.");
+            Log.Debug("Enabling CustomHierarchy integration.", PluginHandler.Instance.Config.VerbouseOutput);
 #pragma warning disable SA1118 // Parameter should not span multiple lines
-            Mistaken.CustomHierarchy.HierarchyHandler.CustomPlayerComperers.Add(
+            CustomPlayerComperers.Add(
                 "dfm_comparer",
                 (
                     5000,
@@ -28,8 +26,10 @@ namespace Mistaken.CustomScientists
                     {
                         if (p1.Role != RoleType.Scientist && p2.Role != RoleType.Scientist)
                             return CompareResult.NO_ACTION;
-                        var p1c = API.CustomRoles.MistakenCustomRole.Get(API.CustomRoles.MistakenCustomRoles.DEPUTY_FACILITY_MANAGER).Check(p1);
-                        var p2c = API.CustomRoles.MistakenCustomRole.Get(API.CustomRoles.MistakenCustomRoles.DEPUTY_FACILITY_MANAGER).Check(p2);
+
+                        var dfmRole = API.CustomRoles.MistakenCustomRole.Get(API.CustomRoles.MistakenCustomRoles.DEPUTY_FACILITY_MANAGER);
+                        var p1c = dfmRole.Check(p1);
+                        var p2c = dfmRole.Check(p2);
                         if (p1c && p2c)
                             return CompareResult.SAME_RANK;
                         else if (p1c)
@@ -51,11 +51,9 @@ namespace Mistaken.CustomScientists
                                 return CompareResult.NO_ACTION;
                         }
                         else
-                        {
                             return CompareResult.NO_ACTION;
-                        }
                     })));
-            Log.Info("Enabled CustomHierarchy integration.");
+            Log.Debug("Enabled CustomHierarchy integration.", PluginHandler.Instance.Config.VerbouseOutput);
 #pragma warning restore SA1118 // Parameter should not span multiple lines
         }
     }

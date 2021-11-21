@@ -64,7 +64,6 @@
     <Compile Include="Classes\DeputyFacalityManager.cs" />
     <Compile Include="CustomHierarchyIntegration.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Handlers\DeputyFacalityManagerHandler.cs" />
     <Compile Include="Items\DeputyFacalityManagerKeycard.cs" />
     <Compile Include="PluginHandler.cs" />
     <Compile Include="Config.cs" />

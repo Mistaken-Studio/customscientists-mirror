@@ -8,8 +8,6 @@ using System;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using Mistaken.CustomScientists.Handlers;
-using static Mistaken.CustomHierarchy.HierarchyHandler;
 
 namespace Mistaken.CustomScientists
 {
@@ -36,9 +34,8 @@ namespace Mistaken.CustomScientists
         {
             Instance = this;
 
-            new DeputyFacalityManagerHandler(this);
-
-            API.Diagnostics.Module.OnEnable(this);
+            new Items.DeputyFacalityManagerKeycard().TryRegister();
+            new Classes.DeputyFacalityManager().TryRegister();
             Events.Handlers.CustomEvents.LoadedPlugins += this.CustomEvents_LoadedPlugins;
 
             base.OnEnabled();
@@ -47,7 +44,8 @@ namespace Mistaken.CustomScientists
         /// <inheritdoc/>
         public override void OnDisabled()
         {
-            API.Diagnostics.Module.OnDisable(this);
+            new Items.DeputyFacalityManagerKeycard().TryRegister();
+            new Classes.DeputyFacalityManager().TryRegister();
             Events.Handlers.CustomEvents.LoadedPlugins -= this.CustomEvents_LoadedPlugins;
             base.OnDisabled();
         }

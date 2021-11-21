@@ -59,7 +59,7 @@ namespace Mistaken.CustomScientists.Items
 
         private void Player_InteractingDoor(InteractingDoorEventArgs ev)
         {
-            if (MapPlus.IsLCZDecontaminated())
+            if (Map.IsLczDecontaminated)
                 return;
             var type = ev.Door.Type;
             if (type == DoorType.GateA || type == DoorType.GateB)
