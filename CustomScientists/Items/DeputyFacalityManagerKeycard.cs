@@ -4,11 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Spawn;
@@ -22,6 +18,11 @@ namespace Mistaken.CustomScientists.Items
     /// <inheritdoc/>
     public class DeputyFacalityManagerKeycard : MistakenCustomItem
     {
+        /// <summary>
+        /// Gets the deputy facality manager keycard instance.
+        /// </summary>
+        public static DeputyFacalityManagerKeycard Instance { get; private set; }
+
         /// <inheritdoc/>
         public override MistakenCustomItems CustomItem => MistakenCustomItems.DEPUTY_FACILITY_MANAGER_KEYCARD;
 
@@ -29,19 +30,22 @@ namespace Mistaken.CustomScientists.Items
         public override ItemType Type { get; set; } = ItemType.KeycardFacilityManager;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "Karta Zastępcy Dyrektora Placówki";
+        public override string Name { get; set; } = "<color=#bd1a47>karta Zastępcy Dyrektora Placówki</color>";
 
         /// <inheritdoc/>
         public override string Description { get; set; } = "well";
-
-        /// <inheritdoc/>
-        public override string DisplayName { get; set; } = "<color=#bd1a47>karta Zastępcy Dyrektora Placówki</color>";
 
         /// <inheritdoc/>
         public override float Weight { get; set; } = 0.5f;
 
         /// <inheritdoc/>
         public override SpawnProperties SpawnProperties { get; set; } = new SpawnProperties();
+
+        /// <inheritdoc/>
+        public override void Init()
+        {
+            Instance = this;
+        }
 
         /// <inheritdoc/>
         protected override void SubscribeEvents()
@@ -54,12 +58,12 @@ namespace Mistaken.CustomScientists.Items
         protected override void UnsubscribeEvents()
         {
             base.UnsubscribeEvents();
-            Exiled.Events.Handlers.Player.InteractingDoor += this.Player_InteractingDoor;
+            Exiled.Events.Handlers.Player.InteractingDoor -= this.Player_InteractingDoor;
         }
 
         private void Player_InteractingDoor(InteractingDoorEventArgs ev)
         {
-            if (Map.IsLczDecontaminated)
+            if (!this.Check(ev.Player.CurrentItem) || Map.IsLczDecontaminated)
                 return;
             var type = ev.Door.Type;
             if (type == DoorType.GateA || type == DoorType.GateB)

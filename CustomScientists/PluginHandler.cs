@@ -27,7 +27,7 @@ namespace Mistaken.CustomScientists
         public override PluginPriority Priority => PluginPriority.Default;
 
         /// <inheritdoc/>
-        public override Version RequiredExiledVersion => new Version(3, 7, 2);
+        public override Version RequiredExiledVersion => new Version(4, 1, 2);
 
         /// <inheritdoc/>
         public override void OnEnabled()
@@ -35,7 +35,9 @@ namespace Mistaken.CustomScientists
             Instance = this;
 
             new Items.DeputyFacalityManagerKeycard().TryRegister();
+            new Items.ZoneManagerKeycard().TryRegister();
             new Classes.DeputyFacalityManager().TryRegister();
+            new Classes.ZoneManager().TryRegister();
             Events.Handlers.CustomEvents.LoadedPlugins += this.CustomEvents_LoadedPlugins;
 
             base.OnEnabled();
@@ -44,8 +46,10 @@ namespace Mistaken.CustomScientists
         /// <inheritdoc/>
         public override void OnDisabled()
         {
-            new Items.DeputyFacalityManagerKeycard().TryRegister();
-            new Classes.DeputyFacalityManager().TryRegister();
+            Items.DeputyFacalityManagerKeycard.Instance.TryUnregister();
+            Items.ZoneManagerKeycard.Instance.TryUnregister();
+            Classes.DeputyFacalityManager.Instance.TryUnregister();
+            Classes.ZoneManager.Instance.TryUnregister();
             Events.Handlers.CustomEvents.LoadedPlugins -= this.CustomEvents_LoadedPlugins;
             base.OnDisabled();
         }

@@ -20,8 +20,13 @@ using UnityEngine;
 namespace Mistaken.CustomScientists.Classes
 {
     /// <inheritdoc/>
-    public class DeputyFacalityManager : Mistaken.API.CustomRoles.MistakenCustomRole
+    public class DeputyFacalityManager : MistakenCustomRole
     {
+        /// <summary>
+        /// Gets the deputy facility manager instance.
+        /// </summary>
+        public static DeputyFacalityManager Instance { get; private set; }
+
         /// <inheritdoc/>
         public override MistakenCustomRoles CustomRole => MistakenCustomRoles.DEPUTY_FACILITY_MANAGER;
 
@@ -32,13 +37,10 @@ namespace Mistaken.CustomScientists.Classes
         public override int MaxHealth { get; set; } = 100;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "Zastępca Dyrektora Placówki";
+        public override string Name { get; set; } = "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
 
         /// <inheritdoc/>
-        public override string Description { get; set; } = "Twoim zadaniem jest pomoc ochronie w odeskortowaniu <color=yellow>naukowców</color><br>Nie możesz uciec przed dekontaminacją LCZ";
-
-        /// <inheritdoc/>
-        public override string DisplayName => "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
+        public override string Description { get; set; } = "Twoim zadaniem jest pomoc w ochronie i odeskortowaniu <color=yellow>naukowców</color><br>. Nie możesz uciec przed dekontaminacją LCZ";
 
         /// <inheritdoc/>
         public override void AddRole(Player player)
@@ -59,6 +61,12 @@ namespace Mistaken.CustomScientists.Classes
                     });
                 }
             }
+        }
+
+        /// <inheritdoc/>
+        public override void Init()
+        {
+            Instance = this;
         }
 
         /// <inheritdoc/>
@@ -169,7 +177,7 @@ namespace Mistaken.CustomScientists.Classes
             var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
             if (scientists.Count < 4)
                 return;
-            scientists = scientists.Where(x => !API.CustomRoles.MistakenCustomRoles.ZONE_MANAGER.Get().Check(x)).ToList();
+            scientists = scientists.Where(x => !ZoneManager.Instance.Check(x)).ToList();
             this.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
         }
     }

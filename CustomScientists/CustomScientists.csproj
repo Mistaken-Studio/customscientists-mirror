@@ -62,9 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DeputyFacalityManager.cs" />
+    <Compile Include="Classes\ZoneManager.cs" />
     <Compile Include="CustomHierarchyIntegration.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Items\DeputyFacalityManagerKeycard.cs" />
+    <Compile Include="Items\ZoneManagerKeycard.cs" />
     <Compile Include="PluginHandler.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
