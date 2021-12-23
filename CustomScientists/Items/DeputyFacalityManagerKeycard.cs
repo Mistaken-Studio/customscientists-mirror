@@ -7,10 +7,14 @@
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Items;
 using Exiled.API.Features.Spawn;
 using Exiled.Events.EventArgs;
+using InventorySystem.Items.Keycards;
+using InventorySystem.Items.Pickups;
 using Mistaken.API;
 using Mistaken.API.CustomItems;
+using Mistaken.API.Extensions;
 using UnityEngine;
 
 namespace Mistaken.CustomScientists.Items
@@ -64,8 +68,18 @@ namespace Mistaken.CustomScientists.Items
 
         private void Player_InteractingDoor(InteractingDoorEventArgs ev)
         {
-            if (!this.Check(ev.Player.CurrentItem) || Map.IsLczDecontaminated)
+            if (Map.IsLczDecontaminated)
                 return;
+            if (!this.Check(ev.Player.CurrentItem))
+            {
+                if (!ev.Player.TryGetSessionVariable<ItemPickupBase>(SessionVarType.THROWN_ITEM, out var item))
+                    return;
+                if (!(item is KeycardPickup keycard))
+                    return;
+                if (!this.TrackedSerials.Contains(keycard.Info.Serial))
+                    return;
+            }
+
             var type = ev.Door.Type;
             if (type == DoorType.GateA || type == DoorType.GateB)
             {
