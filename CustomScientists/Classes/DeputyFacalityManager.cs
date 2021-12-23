@@ -174,6 +174,7 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Server_RoundStarted()
         {
+            Log.Debug("DEBUG", true);
             //var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
             var scientists = RealPlayers.Get(RoleType.ClassD).ToList();
             //if (scientists.Count < 4)
