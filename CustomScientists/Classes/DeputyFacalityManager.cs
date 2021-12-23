@@ -37,7 +37,7 @@ namespace Mistaken.CustomScientists.Classes
         public override int MaxHealth { get; set; } = 100;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
+        public override string Name { get; set; } = "Deputy Facility Manager";
 
         /// <inheritdoc/>
         public override string Description { get; set; } = "Twoim zadaniem jest pomoc w ochronie i odeskortowaniu <color=yellow>naukowców</color><br>. Nie możesz uciec przed dekontaminacją LCZ";
@@ -80,6 +80,9 @@ namespace Mistaken.CustomScientists.Classes
         protected override bool RemovalKillsPlayer { get; set; } = true;
 
         /// <inheritdoc/>
+        protected override string DisplayName => "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
+
+        /// <inheritdoc/>
         protected override List<string> Inventory { get; set; } = new List<string>()
         {
             ItemType.Adrenaline.ToString(),
@@ -93,7 +96,6 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         protected override void UnSubscribeEvents()
         {
-            Log.Debug("UNSUB", true);
             base.UnSubscribeEvents();
             Exiled.Events.Handlers.Player.Escaping -= this.Player_Escaping;
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
@@ -104,7 +106,6 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
-            Log.Debug("SUB", true);
             base.SubscribeEvents();
             Exiled.Events.Handlers.Player.Escaping += this.Player_Escaping;
             Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
@@ -163,7 +164,6 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Server_WaitingForPlayers()
         {
-            Log.Debug("WFP", true);
             this.EscapeLock = UnityEngine.Object.Instantiate(DoorUtils.GetPrefab(DoorUtils.DoorType.HCZ_BREAKABLE), new Vector3(170, 984, 20), Quaternion.identity);
             GameObject.Destroy(this.EscapeLock.GetComponent<DoorEventOpenerExtension>());
             if (this.EscapeLock.TryGetComponent<Scp079Interactable>(out var scp079Interactable))
@@ -178,11 +178,10 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Server_RoundStarted()
         {
-            Log.Debug("START", true);
-            //var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
-            var scientists = RealPlayers.Get(RoleType.ClassD).ToList();
-            //if (scientists.Count < 4)
-            //    return;
+            var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
+            if (scientists.Count < 4)
+                return;
+
             scientists = scientists.Where(x => !ZoneManager.Instance.Check(x)).ToList();
             this.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
         }

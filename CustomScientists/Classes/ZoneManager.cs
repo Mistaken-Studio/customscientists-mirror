@@ -32,7 +32,7 @@ namespace Mistaken.CustomScientists.Classes
         public override int MaxHealth { get; set; } = 100;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
+        public override string Name { get; set; } = "Zone Manager";
 
         /// <inheritdoc/>
         public override string Description { get; set; } = "Twoim zadaniem jest ucieczka z placówki";
@@ -54,6 +54,9 @@ namespace Mistaken.CustomScientists.Classes
         protected override bool RemovalKillsPlayer { get; set; } = true;
 
         /// <inheritdoc/>
+        protected override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
+
+        /// <inheritdoc/>
         protected override List<string> Inventory { get; set; } = new List<string>()
         {
             ItemType.Medkit.ToString(),
@@ -65,7 +68,6 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
-            Log.Debug("SUB", true);
             base.SubscribeEvents();
             Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
             Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
@@ -74,7 +76,6 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         protected override void UnSubscribeEvents()
         {
-            Log.Debug("UnSub", true);
             base.UnSubscribeEvents();
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
             Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
@@ -84,10 +85,10 @@ namespace Mistaken.CustomScientists.Classes
         {
             MEC.Timing.CallDelayed(1.2f, () =>
             {
-                //var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
-                var scientists = RealPlayers.Get(RoleType.ClassD).ToList();
-                //if (scientists.Count < 2)
-                //    return;
+                var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
+                if (scientists.Count < 2)
+                    return;
+
                 scientists = scientists.Where(x => !DeputyFacalityManager.Instance.Check(x)).ToList();
                 ZoneManager.Instance.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
             });

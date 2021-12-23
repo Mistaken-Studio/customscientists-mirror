@@ -20,7 +20,7 @@ using UnityEngine;
 namespace Mistaken.CustomScientists.Items
 {
     /// <inheritdoc/>
-    public class DeputyFacalityManagerKeycard : MistakenCustomItem
+    public class DeputyFacalityManagerKeycard : MistakenCustomKeycard
     {
         /// <summary>
         /// Gets the deputy facality manager keycard instance.
@@ -53,6 +53,14 @@ namespace Mistaken.CustomScientists.Items
         }
 
         /// <inheritdoc/>
+        public override Pickup Spawn(Player player, Item item)
+        {
+            var tor = base.Spawn(player, item);
+            tor.Base.PreviousOwner = new Footprinting.Footprint(player.ReferenceHub);
+            return tor;
+        }
+
+        /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
@@ -70,13 +78,16 @@ namespace Mistaken.CustomScientists.Items
         {
             if (Map.IsLczDecontaminated)
                 return;
+
             if (!this.Check(ev.Player.CurrentItem))
             {
                 if (!ev.Player.TryGetSessionVariable<ItemPickupBase>(SessionVarType.THROWN_ITEM, out var item))
                     return;
+
                 if (!(item is KeycardPickup keycard))
                     return;
-                if (!this.TrackedSerials.Contains(keycard.Info.Serial))
+
+                if (!this.TrackedSerials.Contains(Pickup.Get(keycard).Serial))
                     return;
             }
 
