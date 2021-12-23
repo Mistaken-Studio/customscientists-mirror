@@ -174,9 +174,10 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Server_RoundStarted()
         {
-            var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
-            if (scientists.Count < 4)
-                return;
+            //var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
+            var scientists = RealPlayers.Get(RoleType.ClassD).ToList();
+            //if (scientists.Count < 4)
+            //    return;
             scientists = scientists.Where(x => !ZoneManager.Instance.Check(x)).ToList();
             this.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
         }

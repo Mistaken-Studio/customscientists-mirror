@@ -80,9 +80,10 @@ namespace Mistaken.CustomScientists.Classes
         {
             MEC.Timing.CallDelayed(1.2f, () =>
             {
-                var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
-                if (scientists.Count < 2)
-                    return;
+                //var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
+                var scientists = RealPlayers.Get(RoleType.ClassD).ToList();
+                //if (scientists.Count < 2)
+                //    return;
                 scientists = scientists.Where(x => !DeputyFacalityManager.Instance.Check(x)).ToList();
                 ZoneManager.Instance.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
             });
