@@ -66,6 +66,7 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         public override void Init()
         {
+            base.Init();
             Instance = this;
         }
 
@@ -92,6 +93,7 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         protected override void UnSubscribeEvents()
         {
+            Log.Debug("UNSUB", true);
             base.UnSubscribeEvents();
             Exiled.Events.Handlers.Player.Escaping -= this.Player_Escaping;
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
@@ -102,6 +104,7 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
+            Log.Debug("SUB", true);
             base.SubscribeEvents();
             Exiled.Events.Handlers.Player.Escaping += this.Player_Escaping;
             Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
@@ -160,6 +163,7 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Server_WaitingForPlayers()
         {
+            Log.Debug("WFP", true);
             this.EscapeLock = UnityEngine.Object.Instantiate(DoorUtils.GetPrefab(DoorUtils.DoorType.HCZ_BREAKABLE), new Vector3(170, 984, 20), Quaternion.identity);
             GameObject.Destroy(this.EscapeLock.GetComponent<DoorEventOpenerExtension>());
             if (this.EscapeLock.TryGetComponent<Scp079Interactable>(out var scp079Interactable))
@@ -174,7 +178,7 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Server_RoundStarted()
         {
-            Log.Debug("DEBUG", true);
+            Log.Debug("START", true);
             //var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
             var scientists = RealPlayers.Get(RoleType.ClassD).ToList();
             //if (scientists.Count < 4)

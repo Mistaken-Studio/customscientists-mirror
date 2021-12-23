@@ -38,6 +38,7 @@ namespace Mistaken.CustomScientists.Items
         /// <inheritdoc/>
         public override void Init()
         {
+            base.Init();
             Instance = this;
         }
     }

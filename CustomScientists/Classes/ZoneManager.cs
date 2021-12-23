@@ -7,6 +7,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using Mistaken.API;
 using Mistaken.API.CustomRoles;
@@ -39,6 +40,7 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         public override void Init()
         {
+            base.Init();
             Instance = this;
         }
 
@@ -63,6 +65,7 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
+            Log.Debug("SUB", true);
             base.SubscribeEvents();
             Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
             Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
@@ -71,6 +74,7 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         protected override void UnSubscribeEvents()
         {
+            Log.Debug("UnSub", true);
             base.UnSubscribeEvents();
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
             Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
