@@ -10,7 +10,7 @@ using Mistaken.API.CustomItems;
 namespace Mistaken.CustomScientists.Items
 {
     /// <inheritdoc/>
-    public class ZoneManagerKeycard : MistakenCustomItem
+    public class ZoneManagerKeycard : MistakenCustomKeycard
     {
         /// <summary>
         /// Gets the zone manager keycard instance.
@@ -38,6 +38,7 @@ namespace Mistaken.CustomScientists.Items
         /// <inheritdoc/>
         public override void Init()
         {
+            base.Init();
             Instance = this;
         }
     }

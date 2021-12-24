@@ -37,7 +37,7 @@ namespace Mistaken.CustomScientists.Classes
         public override int MaxHealth { get; set; } = 100;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
+        public override string Name { get; set; } = "Deputy Facility Manager";
 
         /// <inheritdoc/>
         public override string Description { get; set; } = "Twoim zadaniem jest pomoc w ochronie i odeskortowaniu <color=yellow>naukowców</color><br>. Nie możesz uciec przed dekontaminacją LCZ";
@@ -66,6 +66,7 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         public override void Init()
         {
+            base.Init();
             Instance = this;
         }
 
@@ -77,6 +78,9 @@ namespace Mistaken.CustomScientists.Classes
 
         /// <inheritdoc/>
         protected override bool RemovalKillsPlayer { get; set; } = true;
+
+        /// <inheritdoc/>
+        protected override string DisplayName => "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
 
         /// <inheritdoc/>
         protected override List<string> Inventory { get; set; } = new List<string>()
@@ -177,6 +181,7 @@ namespace Mistaken.CustomScientists.Classes
             var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
             if (scientists.Count < 4)
                 return;
+
             scientists = scientists.Where(x => !ZoneManager.Instance.Check(x)).ToList();
             this.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
         }

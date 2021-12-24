@@ -7,6 +7,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
+using Exiled.API.Features;
 using Exiled.Events.EventArgs;
 using Mistaken.API;
 using Mistaken.API.CustomRoles;
@@ -31,7 +32,7 @@ namespace Mistaken.CustomScientists.Classes
         public override int MaxHealth { get; set; } = 100;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
+        public override string Name { get; set; } = "Zone Manager";
 
         /// <inheritdoc/>
         public override string Description { get; set; } = "Twoim zadaniem jest ucieczka z placówki";
@@ -39,6 +40,7 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         public override void Init()
         {
+            base.Init();
             Instance = this;
         }
 
@@ -50,6 +52,9 @@ namespace Mistaken.CustomScientists.Classes
 
         /// <inheritdoc/>
         protected override bool RemovalKillsPlayer { get; set; } = true;
+
+        /// <inheritdoc/>
+        protected override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
 
         /// <inheritdoc/>
         protected override List<string> Inventory { get; set; } = new List<string>()
@@ -83,6 +88,7 @@ namespace Mistaken.CustomScientists.Classes
                 var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
                 if (scientists.Count < 2)
                     return;
+
                 scientists = scientists.Where(x => !DeputyFacalityManager.Instance.Check(x)).ToList();
                 ZoneManager.Instance.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
             });
