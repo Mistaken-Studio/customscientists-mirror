@@ -51,7 +51,7 @@ namespace Mistaken.CustomScientists.Classes
         protected override bool KeepRoleOnDeath { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool RemovalKillsPlayer { get; set; } = true;
+        protected override bool RemovalKillsPlayer { get; set; } = false;
 
         /// <inheritdoc/>
         protected override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
@@ -60,7 +60,8 @@ namespace Mistaken.CustomScientists.Classes
         protected override List<string> Inventory { get; set; } = new List<string>()
         {
             ItemType.Medkit.ToString(),
-            ItemType.Radio.ToString(),
+
+            // ItemType.Radio.ToString(),
             ((int)API.CustomItems.MistakenCustomItems.ZONE_MANAGER_KEYCARD).ToString(),
             ((int)API.CustomItems.MistakenCustomItems.SNAV_3000).ToString(),
         };

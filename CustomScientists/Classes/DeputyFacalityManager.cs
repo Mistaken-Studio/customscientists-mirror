@@ -77,7 +77,7 @@ namespace Mistaken.CustomScientists.Classes
         protected override bool KeepRoleOnDeath { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool RemovalKillsPlayer { get; set; } = true;
+        protected override bool RemovalKillsPlayer { get; set; } = false;
 
         /// <inheritdoc/>
         protected override string DisplayName => "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
@@ -87,7 +87,8 @@ namespace Mistaken.CustomScientists.Classes
         {
             ItemType.Adrenaline.ToString(),
             ItemType.Medkit.ToString(),
-            ItemType.Radio.ToString(),
+
+            // ItemType.Radio.ToString(),
             ItemType.ArmorLight.ToString(),
             ((int)API.CustomItems.MistakenCustomItems.DEPUTY_FACILITY_MANAGER_KEYCARD).ToString(),
             ((int)API.CustomItems.MistakenCustomItems.SNAV_ULTIMATE).ToString(),
