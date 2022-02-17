@@ -27,7 +27,7 @@ namespace Mistaken.CustomScientists.Items
         public override string Name { get; set; } = "<color=#217a7b>Karta Zarządcy Strefy</color>";
 
         /// <inheritdoc/>
-        public override string Description { get; set; } = "well";
+        public override string Description { get; set; } = string.Empty;
 
         /// <inheritdoc/>
         public override float Weight { get; set; } = 0.5f;
