@@ -37,6 +37,9 @@ namespace Mistaken.CustomScientists.Items
         public override string Name { get; set; } = "<color=#bd1a47>karta Zastępcy Dyrektora Placówki</color>";
 
         /// <inheritdoc/>
+        public override string DisplayName => "<color=#bd1a47>karta Zastępcy Dyrektora Placówki</color>";
+
+        /// <inheritdoc/>
         public override string Description { get; set; } = string.Empty;
 
         /// <inheritdoc/>
