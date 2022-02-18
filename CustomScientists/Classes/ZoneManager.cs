@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Spawn;
 using Exiled.Events.EventArgs;
 using Mistaken.API;
 using Mistaken.API.CustomRoles;
+using UnityEngine;
 
 namespace Mistaken.CustomScientists.Classes
 {
@@ -121,6 +123,15 @@ namespace Mistaken.CustomScientists.Classes
                     }
                 }
             }
+        }
+
+        protected override void RoleAdded(Player player)
+        {
+            base.RoleAdded(player);
+            MEC.Timing.CallDelayed(1.5f, () =>
+            {
+                player.Position = Map.Rooms.Where(x => x.Type == RoomType.HczChkpA || x.Type == RoomType.HczChkpB).First().Position + (Vector3.up * 1.5f);
+            });
         }
     }
 }
