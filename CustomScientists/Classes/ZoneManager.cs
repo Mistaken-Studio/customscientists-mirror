@@ -7,7 +7,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
-using Exiled.API.Features;
+using Exiled.API.Features.Attributes;
 using Exiled.Events.EventArgs;
 using Mistaken.API;
 using Mistaken.API.CustomRoles;
@@ -15,6 +15,7 @@ using Mistaken.API.CustomRoles;
 namespace Mistaken.CustomScientists.Classes
 {
     /// <inheritdoc/>
+    [CustomRole(RoleType.Scientist)]
     public class ZoneManager : MistakenCustomRole
     {
         /// <summary>
@@ -38,26 +39,19 @@ namespace Mistaken.CustomScientists.Classes
         public override string Description { get; set; } = "Twoim zadaniem jest ucieczka z placówki";
 
         /// <inheritdoc/>
-        public override void Init()
-        {
-            base.Init();
-            Instance = this;
-        }
+        public override string CustomInfo { get; set; }
 
         /// <inheritdoc/>
-        protected override bool KeepInventoryOnSpawn { get; set; } = false;
+        public override bool KeepInventoryOnSpawn { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool KeepRoleOnDeath { get; set; } = false;
+        public override bool KeepRoleOnDeath { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool RemovalKillsPlayer { get; set; } = false;
+        public override bool RemovalKillsPlayer { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
-
-        /// <inheritdoc/>
-        protected override List<string> Inventory { get; set; } = new List<string>()
+        public override List<string> Inventory { get; set; } = new List<string>()
         {
             ItemType.Medkit.ToString(),
 
@@ -65,6 +59,16 @@ namespace Mistaken.CustomScientists.Classes
             ((int)API.CustomItems.MistakenCustomItems.ZONE_MANAGER_KEYCARD).ToString(),
             ((int)API.CustomItems.MistakenCustomItems.SNAV_3000).ToString(),
         };
+
+        /// <inheritdoc/>
+        public override void Init()
+        {
+            base.Init();
+            Instance = this;
+        }
+
+        /// <inheritdoc/>
+        protected override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
 
         /// <inheritdoc/>
         protected override void SubscribeEvents()
@@ -75,9 +79,9 @@ namespace Mistaken.CustomScientists.Classes
         }
 
         /// <inheritdoc/>
-        protected override void UnSubscribeEvents()
+        protected override void UnsubscribeEvents()
         {
-            base.UnSubscribeEvents();
+            base.UnsubscribeEvents();
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
             Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
         }
