@@ -4,12 +4,14 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using Exiled.API.Features.Attributes;
 using Exiled.API.Features.Spawn;
 using Mistaken.API.CustomItems;
 
 namespace Mistaken.CustomScientists.Items
 {
     /// <inheritdoc/>
+    [CustomItem(ItemType.KeycardZoneManager)]
     public class ZoneManagerKeycard : MistakenCustomKeycard
     {
         /// <summary>

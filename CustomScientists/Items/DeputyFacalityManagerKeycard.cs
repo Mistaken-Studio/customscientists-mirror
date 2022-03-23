@@ -7,6 +7,7 @@
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Attributes;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Spawn;
 using Exiled.Events.EventArgs;
@@ -20,6 +21,7 @@ using UnityEngine;
 namespace Mistaken.CustomScientists.Items
 {
     /// <inheritdoc/>
+    [CustomItem(ItemType.KeycardFacilityManager)]
     public class DeputyFacalityManagerKeycard : MistakenCustomKeycard
     {
         /// <summary>
