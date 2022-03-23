@@ -5,6 +5,7 @@
 // -----------------------------------------------------------------------
 
 using Exiled.API.Features;
+using System;
 using static Mistaken.CustomHierarchy.HierarchyHandler;
 
 namespace Mistaken.CustomScientists
@@ -19,8 +20,7 @@ namespace Mistaken.CustomScientists
             CustomPlayerComperers.Add(
                 "dfm_comparer",
                 (
-                    5000,
-                    (Player p1, Player p2) =>
+                    (5000, (Func<Player, Player, CompareResult>)((p1, p2) =>
                     {
                         if (p1.Role != RoleType.Scientist && p2.Role != RoleType.Scientist)
                             return CompareResult.NO_ACTION;
@@ -33,7 +33,7 @@ namespace Mistaken.CustomScientists
                         {
                             if (p2.Role == RoleType.Scientist)
                                 return CompareResult.GIVE_ORDERS;
-                            else if (Map.IsLczDecontaminated && p2.Team == Team.MTF)
+                            else if (Map.IsLczDecontaminated && p2.Role.Team == Team.MTF)
                                 return CompareResult.GIVE_ORDERS;
                             else
                                 return CompareResult.NO_ACTION;
@@ -42,14 +42,14 @@ namespace Mistaken.CustomScientists
                         {
                             if (p1.Role == RoleType.Scientist)
                                 return CompareResult.FOLLOW_ORDERS;
-                            else if (Map.IsLczDecontaminated && p1.Team == Team.MTF)
+                            else if (Map.IsLczDecontaminated && p1.Role.Team == Team.MTF)
                                 return CompareResult.FOLLOW_ORDERS;
                             else
                                 return CompareResult.NO_ACTION;
                         }
                         else
                             return CompareResult.NO_ACTION;
-                    }));
+                    }))));
             Log.Debug("Enabled CustomHierarchy integration.", PluginHandler.Instance.Config.VerbouseOutput);
 #pragma warning restore SA1118 // Parameter should not span multiple lines
         }
