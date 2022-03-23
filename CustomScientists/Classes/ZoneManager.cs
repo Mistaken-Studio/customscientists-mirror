@@ -126,5 +126,14 @@ namespace Mistaken.CustomScientists.Classes
                 }
             }
         }
+
+        protected override void RoleAdded(Player player)
+        {
+            base.RoleAdded(player);
+            MEC.Timing.CallDelayed(1.5f, () =>
+            {
+                player.Position = Map.Rooms.Where(x => x.Type == RoomType.HczChkpA || x.Type == RoomType.HczChkpB).First().Position + (Vector3.up * 1.5f);
+            });
+        }
     }
 }

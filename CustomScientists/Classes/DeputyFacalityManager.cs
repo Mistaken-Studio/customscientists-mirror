@@ -184,12 +184,15 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Server_RoundStarted()
         {
-            var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
-            if (scientists.Count < 4)
-                return;
+            MEC.Timing.CallDelayed(1.3f, () =>
+            {
+                var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
+                if (scientists.Count < 3)
+                    return;
 
-            scientists = scientists.Where(x => !ZoneManager.Instance.Check(x)).ToList();
-            this.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
+                scientists = scientists.Where(x => !ZoneManager.Instance.Check(x)).ToList();
+                this.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
+            });
         }
     }
 }
