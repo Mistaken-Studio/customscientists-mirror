@@ -63,14 +63,14 @@ namespace Mistaken.CustomScientists.Classes
         };
 
         /// <inheritdoc/>
+        public override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
+
+        /// <inheritdoc/>
         public override void Init()
         {
             base.Init();
             Instance = this;
         }
-
-        /// <inheritdoc/>
-        protected override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
 
         /// <inheritdoc/>
         protected override void SubscribeEvents()

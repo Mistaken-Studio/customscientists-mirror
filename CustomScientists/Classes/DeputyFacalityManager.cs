@@ -69,6 +69,9 @@ namespace Mistaken.CustomScientists.Classes
         };
 
         /// <inheritdoc/>
+        public override string DisplayName => "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
+
+        /// <inheritdoc/>
         public override void Init()
         {
             base.Init();
@@ -95,9 +98,6 @@ namespace Mistaken.CustomScientists.Classes
                 }
             }
         }
-
-        /// <inheritdoc/>
-        protected override string DisplayName => "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
 
         /// <inheritdoc/>
         protected override void UnsubscribeEvents()

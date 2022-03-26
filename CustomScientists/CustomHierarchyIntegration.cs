@@ -48,8 +48,7 @@ namespace Mistaken.CustomScientists
                     }
                     else
                         return CompareResult.NO_ACTION;
-                }
-            ));
+                }));
             Log.Debug("Enabled CustomHierarchy integration.", PluginHandler.Instance.Config.VerbouseOutput);
 #pragma warning restore SA1118 // Parameter should not span multiple lines
         }
