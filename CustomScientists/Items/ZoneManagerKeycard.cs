@@ -26,7 +26,7 @@ namespace Mistaken.CustomScientists.Items
         public override ItemType Type { get; set; } = ItemType.KeycardZoneManager;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "<color=#217a7b>Karta Zarządcy Strefy</color>";
+        public override string Name { get; set; } = "Karta Zarządcy Strefy";
 
         /// <inheritdoc/>
         public override string DisplayName => "<color=#217a7b>Karta Zarządcy Strefy</color>";

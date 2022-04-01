@@ -36,7 +36,7 @@ namespace Mistaken.CustomScientists.Items
         public override ItemType Type { get; set; } = ItemType.KeycardFacilityManager;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "<color=#bd1a47>karta Zastępcy Dyrektora Placówki</color>";
+        public override string Name { get; set; } = "karta Zastępcy Dyrektora Placówki";
 
         /// <inheritdoc/>
         public override string DisplayName => "<color=#bd1a47>karta Zastępcy Dyrektora Placówki</color>";
