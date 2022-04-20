@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.API.Features.Spawn;
+using Exiled.API.Features.Attributes;
 using Exiled.Events.EventArgs;
 using Mistaken.API;
 using Mistaken.API.CustomRoles;
@@ -17,6 +17,7 @@ using UnityEngine;
 namespace Mistaken.CustomScientists.Classes
 {
     /// <inheritdoc/>
+    [CustomRole(RoleType.Scientist)]
     public class ZoneManager : MistakenCustomRole
     {
         /// <summary>
@@ -40,26 +41,19 @@ namespace Mistaken.CustomScientists.Classes
         public override string Description { get; set; } = "Twoim zadaniem jest ucieczka z placówki";
 
         /// <inheritdoc/>
-        public override void Init()
-        {
-            base.Init();
-            Instance = this;
-        }
+        public override string CustomInfo { get; set; }
 
         /// <inheritdoc/>
-        protected override bool KeepInventoryOnSpawn { get; set; } = false;
+        public override bool KeepInventoryOnSpawn { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool KeepRoleOnDeath { get; set; } = false;
+        public override bool KeepRoleOnDeath { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override bool RemovalKillsPlayer { get; set; } = false;
+        public override bool RemovalKillsPlayer { get; set; } = false;
 
         /// <inheritdoc/>
-        protected override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
-
-        /// <inheritdoc/>
-        protected override List<string> Inventory { get; set; } = new List<string>()
+        public override List<string> Inventory { get; set; } = new List<string>()
         {
             ItemType.Medkit.ToString(),
 
@@ -67,6 +61,16 @@ namespace Mistaken.CustomScientists.Classes
             ((int)API.CustomItems.MistakenCustomItems.ZONE_MANAGER_KEYCARD).ToString(),
             ((int)API.CustomItems.MistakenCustomItems.SNAV_3000).ToString(),
         };
+
+        /// <inheritdoc/>
+        public override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
+
+        /// <inheritdoc/>
+        public override void Init()
+        {
+            base.Init();
+            Instance = this;
+        }
 
         /// <inheritdoc/>
         protected override void SubscribeEvents()
@@ -77,11 +81,21 @@ namespace Mistaken.CustomScientists.Classes
         }
 
         /// <inheritdoc/>
-        protected override void UnSubscribeEvents()
+        protected override void UnsubscribeEvents()
         {
-            base.UnSubscribeEvents();
+            base.UnsubscribeEvents();
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
             Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
+        }
+
+        /// <inheritdoc/>
+        protected override void RoleAdded(Player player)
+        {
+            base.RoleAdded(player);
+            MEC.Timing.CallDelayed(1.5f, () =>
+            {
+                player.Position = Room.List.Where(x => x.Type == RoomType.HczChkpA || x.Type == RoomType.HczChkpB).First().Position + (Vector3.up * 1.5f);
+            });
         }
 
         private void Server_RoundStarted()
@@ -123,15 +137,6 @@ namespace Mistaken.CustomScientists.Classes
                     }
                 }
             }
-        }
-
-        protected override void RoleAdded(Player player)
-        {
-            base.RoleAdded(player);
-            MEC.Timing.CallDelayed(1.5f, () =>
-            {
-                player.Position = Map.Rooms.Where(x => x.Type == RoomType.HczChkpA || x.Type == RoomType.HczChkpB).First().Position + (Vector3.up * 1.5f);
-            });
         }
     }
 }

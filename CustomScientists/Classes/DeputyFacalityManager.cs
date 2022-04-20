@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Exiled.API.Features;
+using Exiled.API.Features.Attributes;
 using Interactables.Interobjects;
 using Interactables.Interobjects.DoorUtils;
 using Mirror;
@@ -20,6 +21,7 @@ using UnityEngine;
 namespace Mistaken.CustomScientists.Classes
 {
     /// <inheritdoc/>
+    [CustomRole(RoleType.Scientist)]
     public class DeputyFacalityManager : MistakenCustomRole
     {
         /// <summary>
@@ -43,6 +45,40 @@ namespace Mistaken.CustomScientists.Classes
         public override string Description { get; set; } = "Twoim zadaniem jest pomoc w ochronie i odeskortowaniu <color=yellow>naukowców</color><br>. Nie możesz uciec przed dekontaminacją LCZ";
 
         /// <inheritdoc/>
+        public override string CustomInfo { get; set; }
+
+        /// <inheritdoc/>
+        public override bool KeepInventoryOnSpawn { get; set; } = false;
+
+        /// <inheritdoc/>
+        public override bool KeepRoleOnDeath { get; set; } = false;
+
+        /// <inheritdoc/>
+        public override bool RemovalKillsPlayer { get; set; } = false;
+
+        /// <inheritdoc/>
+        public override List<string> Inventory { get; set; } = new List<string>()
+        {
+            ItemType.Adrenaline.ToString(),
+            ItemType.Medkit.ToString(),
+
+            // ItemType.Radio.ToString(),
+            ItemType.ArmorLight.ToString(),
+            ((int)API.CustomItems.MistakenCustomItems.DEPUTY_FACILITY_MANAGER_KEYCARD).ToString(),
+            ((int)API.CustomItems.MistakenCustomItems.SNAV_ULTIMATE).ToString(),
+        };
+
+        /// <inheritdoc/>
+        public override string DisplayName => "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
+
+        /// <inheritdoc/>
+        public override void Init()
+        {
+            base.Init();
+            Instance = this;
+        }
+
+        /// <inheritdoc/>
         public override void AddRole(Player player)
         {
             base.AddRole(player);
@@ -64,40 +100,9 @@ namespace Mistaken.CustomScientists.Classes
         }
 
         /// <inheritdoc/>
-        public override void Init()
+        protected override void UnsubscribeEvents()
         {
-            base.Init();
-            Instance = this;
-        }
-
-        /// <inheritdoc/>
-        protected override bool KeepInventoryOnSpawn { get; set; } = false;
-
-        /// <inheritdoc/>
-        protected override bool KeepRoleOnDeath { get; set; } = false;
-
-        /// <inheritdoc/>
-        protected override bool RemovalKillsPlayer { get; set; } = false;
-
-        /// <inheritdoc/>
-        protected override string DisplayName => "<color=#bd1a47>Zastępca Dyrektora Placówki</color>";
-
-        /// <inheritdoc/>
-        protected override List<string> Inventory { get; set; } = new List<string>()
-        {
-            ItemType.Adrenaline.ToString(),
-            ItemType.Medkit.ToString(),
-
-            // ItemType.Radio.ToString(),
-            ItemType.ArmorLight.ToString(),
-            ((int)API.CustomItems.MistakenCustomItems.DEPUTY_FACILITY_MANAGER_KEYCARD).ToString(),
-            ((int)API.CustomItems.MistakenCustomItems.SNAV_ULTIMATE).ToString(),
-        };
-
-        /// <inheritdoc/>
-        protected override void UnSubscribeEvents()
-        {
-            base.UnSubscribeEvents();
+            base.UnsubscribeEvents();
             Exiled.Events.Handlers.Player.Escaping -= this.Player_Escaping;
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
             Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
