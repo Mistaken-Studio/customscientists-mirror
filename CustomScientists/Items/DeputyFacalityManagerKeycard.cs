@@ -58,9 +58,9 @@ namespace Mistaken.CustomScientists.Items
         }
 
         /// <inheritdoc/>
-        public override Pickup Spawn(Player player, Item item)
+        public override Pickup Spawn(Player player, Item item, Player previousOwner)
         {
-            var tor = base.Spawn(player, item);
+            var tor = base.Spawn(player, item, previousOwner);
             tor.Base.PreviousOwner = new Footprinting.Footprint(player.ReferenceHub);
             return tor;
         }
