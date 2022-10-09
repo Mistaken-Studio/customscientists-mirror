@@ -12,7 +12,7 @@ namespace Mistaken.CustomScientists.Items
 {
     /// <inheritdoc/>
     [CustomItem(ItemType.KeycardZoneManager)]
-    public class ZoneManagerKeycard : MistakenCustomKeycard
+    public sealed class ZoneManagerKeycard : MistakenCustomKeycard
     {
         /// <summary>
         /// Gets the zone manager keycard instance.
@@ -26,13 +26,13 @@ namespace Mistaken.CustomScientists.Items
         public override ItemType Type { get; set; } = ItemType.KeycardZoneManager;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "Karta Zarządcy Strefy";
+        public override string Name { get; set; } = PluginHandler.Instance.Translation.ZoneManagerKeycard;
 
         /// <inheritdoc/>
-        public override string DisplayName => "<color=#217a7b>Karta Zarządcy Strefy</color>";
+        public override string DisplayName => $"<color=#217a7b>{this.Name}</color>";
 
         /// <inheritdoc/>
-        public override string Description { get; set; } = string.Empty;
+        public override string Description { get; set; } = PluginHandler.Instance.Translation.ZoneManagerKeycardDescription;
 
         /// <inheritdoc/>
         public override float Weight { get; set; } = 0.5f;

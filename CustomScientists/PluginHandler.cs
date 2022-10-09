@@ -8,28 +8,28 @@ using System;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Mistaken.Updater.API.Config;
 
 namespace Mistaken.CustomScientists
 {
-    /// <inheritdoc/>
-    public class PluginHandler : Plugin<Config>
+    internal sealed class PluginHandler : Plugin<Config, Translations>, IAutoUpdateablePlugin
     {
-        /// <inheritdoc/>
         public override string Author => "Mistaken Devs";
 
-        /// <inheritdoc/>
         public override string Name => "CustomScientists";
 
-        /// <inheritdoc/>
         public override string Prefix => "MCScientists";
 
-        /// <inheritdoc/>
         public override PluginPriority Priority => PluginPriority.Default;
 
-        /// <inheritdoc/>
-        public override Version RequiredExiledVersion => new Version(5, 0, 0);
+        public override Version RequiredExiledVersion => new(5, 2, 2);
 
-        /// <inheritdoc/>
+        public AutoUpdateConfig AutoUpdateConfig => new()
+        {
+            Type = this.Config.SourceType,
+            Url = this.Config.Url,
+        };
+
         public override void OnEnabled()
         {
             Instance = this;
@@ -38,17 +38,11 @@ namespace Mistaken.CustomScientists
             base.OnEnabled();
         }
 
-        /// <inheritdoc/>
         public override void OnDisabled()
         {
             Events.Handlers.CustomEvents.LoadedPlugins -= this.CustomEvents_LoadedPlugins;
             base.OnDisabled();
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether Custom Hierarchy plugin is available.
-        /// </summary>
-        internal static bool CustomHierarchyAvailable { get; set; } = false;
 
         internal static PluginHandler Instance { get; private set; }
 

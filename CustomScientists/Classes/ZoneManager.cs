@@ -9,7 +9,6 @@ using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Attributes;
-using Exiled.Events.EventArgs;
 using Mistaken.API;
 using Mistaken.API.CustomRoles;
 using UnityEngine;
@@ -18,13 +17,8 @@ namespace Mistaken.CustomScientists.Classes
 {
     /// <inheritdoc/>
     [CustomRole(RoleType.Scientist)]
-    public class ZoneManager : MistakenCustomRole
+    public sealed class ZoneManager : MistakenCustomRole
     {
-        /// <summary>
-        /// Gets the zone manager instance.
-        /// </summary>
-        public static ZoneManager Instance { get; private set; }
-
         /// <inheritdoc/>
         public override MistakenCustomRoles CustomRole => MistakenCustomRoles.ZONE_MANAGER;
 
@@ -35,10 +29,10 @@ namespace Mistaken.CustomScientists.Classes
         public override int MaxHealth { get; set; } = 100;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "Zone Manager";
+        public override string Name { get; set; } = PluginHandler.Instance.Translation.ZoneManager;
 
         /// <inheritdoc/>
-        public override string Description { get; set; } = "Twoim zadaniem jest ucieczka z placówki";
+        public override string Description { get; set; } = PluginHandler.Instance.Translation.ZoneManagerDescription;
 
         /// <inheritdoc/>
         public override string CustomInfo { get; set; }
@@ -53,31 +47,21 @@ namespace Mistaken.CustomScientists.Classes
         public override bool RemovalKillsPlayer { get; set; } = false;
 
         /// <inheritdoc/>
-        public override List<string> Inventory { get; set; } = new List<string>()
+        public override List<string> Inventory { get; set; } = new ()
         {
             ItemType.Medkit.ToString(),
-
-            // ItemType.Radio.ToString(),
             ((int)API.CustomItems.MistakenCustomItems.ZONE_MANAGER_KEYCARD).ToString(),
             ((int)API.CustomItems.MistakenCustomItems.SNAV_3000).ToString(),
         };
 
         /// <inheritdoc/>
-        public override string DisplayName => "<color=#217a7b>Zarządca Strefy Podwyższonego Ryzyka</color>";
-
-        /// <inheritdoc/>
-        public override void Init()
-        {
-            base.Init();
-            Instance = this;
-        }
+        public override string DisplayName => $"<color=#217a7b>{this.Name}</color>";
 
         /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
             Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
-            Exiled.Events.Handlers.Player.ChangingRole += this.Player_ChangingRole;
         }
 
         /// <inheritdoc/>
@@ -85,16 +69,15 @@ namespace Mistaken.CustomScientists.Classes
         {
             base.UnsubscribeEvents();
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
-            Exiled.Events.Handlers.Player.ChangingRole -= this.Player_ChangingRole;
         }
 
         /// <inheritdoc/>
         protected override void RoleAdded(Player player)
         {
             base.RoleAdded(player);
-            MEC.Timing.CallDelayed(1.5f, () =>
+            MEC.Timing.CallDelayed(1f, () =>
             {
-                player.Position = Room.List.Where(x => x.Type == RoomType.HczChkpA || x.Type == RoomType.HczChkpB).First().Position + (Vector3.up * 1.5f);
+                player.Position = API.Utilities.Room.Get(Room.List.First(x => x.Type == RoomType.LczClassDSpawn)).Neighbors[0].ExiledRoom.Position + (Vector3.up * 2f);
             });
         }
 
@@ -102,41 +85,13 @@ namespace Mistaken.CustomScientists.Classes
         {
             MEC.Timing.CallDelayed(1.2f, () =>
             {
-                var scientists = RealPlayers.Get(RoleType.Scientist).ToList();
-                if (scientists.Count < 2)
+                var scientists = RealPlayers.Get(RoleType.Scientist).ToArray();
+                if (scientists.Length < 2)
                     return;
 
-                scientists = scientists.Where(x => !DeputyFacalityManager.Instance.Check(x)).ToList();
-                ZoneManager.Instance.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Count)]);
+                scientists = scientists.Where(x => !Registered.Any(y => y.Check(x))).ToArray();
+                this.AddRole(scientists[UnityEngine.Random.Range(0, scientists.Length)]);
             });
-        }
-
-        private void Player_ChangingRole(ChangingRoleEventArgs ev)
-        {
-            if (ev.Reason == SpawnReason.Escaped)
-            {
-                if (ZoneManager.Instance.Check(ev.Player))
-                {
-                    if (ev.NewRole == RoleType.NtfSpecialist)
-                    {
-                        ev.NewRole = RoleType.NtfPrivate;
-                        if (ev.Items.Contains(ItemType.KeycardNTFOfficer))
-                        {
-                            ev.Items.Remove(ItemType.KeycardNTFOfficer);
-                            ev.Items.Add(ItemType.KeycardNTFLieutenant);
-                        }
-                    }
-                    else
-                    {
-                        ev.Items.Add(ItemType.GunCrossvec);
-                        ev.Items.Add(ItemType.SCP207);
-                        MEC.Timing.CallDelayed(1, () =>
-                        {
-                            ev.Player.Ammo[ItemType.Ammo9x19] += 100;
-                        });
-                    }
-                }
-            }
         }
     }
 }
