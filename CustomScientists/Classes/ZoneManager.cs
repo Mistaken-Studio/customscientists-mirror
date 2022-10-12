@@ -58,6 +58,15 @@ namespace Mistaken.CustomScientists.Classes
         public override string DisplayName => $"<color=#217a7b>{this.Name}</color>";
 
         /// <inheritdoc/>
+        public override void Init()
+        {
+            Instance = this;
+            base.Init();
+        }
+
+        internal static ZoneManager Instance { get; set; }
+
+        /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
