@@ -28,6 +28,12 @@ namespace Mistaken.CustomScientists
                     var p2c = Classes.DeputyFacalityManager.Instance.Check(p2);
                     var p1z = Classes.ZoneManager.Instance.Check(p1);
                     var p2z = Classes.ZoneManager.Instance.Check(p2);
+
+                    Log.Debug($"Player 1 is Deputy Facality Manager: {p1c}", PluginHandler.Instance.Config.VerbouseOutput);
+                    Log.Debug($"Player 2 is Deputy Facality Manager: {p2c}", PluginHandler.Instance.Config.VerbouseOutput);
+                    Log.Debug($"Player 1 is Zone Manager: {p1z}", PluginHandler.Instance.Config.VerbouseOutput);
+                    Log.Debug($"Player 2 is Zone Manager: {p2z}", PluginHandler.Instance.Config.VerbouseOutput);
+
                     if (p1c && p2c || p1z && p2z)
                         return CompareResult.SAME_RANK;
                     else if (p1c)
@@ -58,7 +64,7 @@ namespace Mistaken.CustomScientists
                     else if (p2z)
                     {
                         if (p1.Role.Type == RoleType.Scientist)
-                            return CompareResult.GIVE_ORDERS;
+                            return CompareResult.FOLLOW_ORDERS;
                         else
                             return CompareResult.NO_ACTION;
                     }
