@@ -81,7 +81,7 @@ namespace Mistaken.CustomScientists.Classes
         {
             base.AddRole(player);
 
-            if (escapeLock.Base == null)
+            if (escapeLock?.Base == null)
             {
                 UnityEngine.Debug.LogError("Tried to spawn null object for DeputyFacilityManager");
                 return;
@@ -114,7 +114,7 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Server_WaitingForPlayers()
         {
-            if (escapeLock.Base != null)
+            if (escapeLock?.Base != null)
                 return;
 
             escapeLock = Primitive.Create(new Vector3(170.15f, 986f, 20f), new Vector3(0f, 0f, 90f), new Vector3(6f, 4f, 1f), false);
@@ -150,7 +150,7 @@ namespace Mistaken.CustomScientists.Classes
 
         private void Map_Decontaminating(Exiled.Events.EventArgs.DecontaminatingEventArgs ev)
         {
-            if (escapeLock.Base == null)
+            if (escapeLock?.Base == null)
             {
                 UnityEngine.Debug.LogError("Tried to remove null object for DeputyFacilityManagers");
                 return;
