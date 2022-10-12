@@ -74,24 +74,6 @@ namespace Mistaken.CustomScientists.Classes
         {
             base.Init();
             Instance = this;
-
-            escapeLock = Primitive.Create(new Vector3(170.15f, 986f, 20f), new Vector3(0f, 0f, 90f), new Vector3(6f, 4f, 1f), false);
-            escapeLock.Type = PrimitiveType.Quad;
-            escapeLock.Color = new Color(255f, 255f, 255f, 53f);
-            escapeLock.Collidable = true;
-
-            void OnEnter(Player player)
-            {
-                if (!this.Check(player))
-                    return;
-
-                if (Map.IsLczDecontaminated)
-                    return;
-
-                player.SetGUI("DeputyFacilityManager_InformEscape", PseudoGUIPosition.MIDDLE, "<size=200%>Nie możesz uciec przed dekontaminacją LCZ</size>", 5f);
-            }
-
-            InRange.Spawn(new Vector3(170.15f, 987f, 18f), new Vector3(4f, 6f, 4f), OnEnter);
         }
 
         /// <inheritdoc/>
@@ -112,6 +94,7 @@ namespace Mistaken.CustomScientists.Classes
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
+            Exiled.Events.Handlers.Server.WaitingForPlayers += this.Server_WaitingForPlayers;
             Exiled.Events.Handlers.Player.Escaping += this.Player_Escaping;
             Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
             Exiled.Events.Handlers.Map.Decontaminating += this.Map_Decontaminating;
@@ -121,12 +104,37 @@ namespace Mistaken.CustomScientists.Classes
         protected override void UnsubscribeEvents()
         {
             base.UnsubscribeEvents();
+            Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
             Exiled.Events.Handlers.Player.Escaping -= this.Player_Escaping;
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
             Exiled.Events.Handlers.Map.Decontaminating -= this.Map_Decontaminating;
         }
 
         private static Primitive escapeLock;
+
+        private void Server_WaitingForPlayers()
+        {
+            if (escapeLock.Base != null)
+                return;
+
+            escapeLock = Primitive.Create(new Vector3(170.15f, 986f, 20f), new Vector3(0f, 0f, 90f), new Vector3(6f, 4f, 1f), false);
+            escapeLock.Type = PrimitiveType.Quad;
+            escapeLock.Color = new Color(255f, 255f, 255f, 53f);
+            escapeLock.Collidable = true;
+
+            void OnEnter(Player player)
+            {
+                if (!this.Check(player))
+                    return;
+
+                if (Map.IsLczDecontaminated)
+                    return;
+
+                player.SetGUI("DeputyFacilityManager_InformEscape", PseudoGUIPosition.MIDDLE, "<size=200%>Nie możesz uciec przed dekontaminacją LCZ</size>", 5f);
+            }
+
+            InRange.Spawn(new Vector3(170.15f, 987f, 18f), new Vector3(4f, 6f, 4f), OnEnter);
+        }
 
         private void Player_Escaping(Exiled.Events.EventArgs.EscapingEventArgs ev)
         {
