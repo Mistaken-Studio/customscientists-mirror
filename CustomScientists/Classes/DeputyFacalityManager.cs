@@ -87,7 +87,7 @@ namespace Mistaken.CustomScientists.Classes
                 return;
             }
 
-            Server.SendSpawnMessage.Invoke(null, new object[] { escapeLock.Base.netId, player.Connection, });
+            Server.SendSpawnMessage.Invoke(null, new object[] { escapeLock.Base.netIdentity, player.Connection, });
         }
 
         /// <inheritdoc/>
