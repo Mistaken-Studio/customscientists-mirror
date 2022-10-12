@@ -46,10 +46,15 @@ namespace Mistaken.CustomScientists
 
         internal static PluginHandler Instance { get; private set; }
 
+        internal static bool CustomHierarchyIntegrationEnabled { get; private set; } = false;
+
         private void CustomEvents_LoadedPlugins()
         {
             if (Exiled.Loader.Loader.Plugins.Any(x => x.Name == "CustomHierarchy"))
+            {
                 CustomHierarchyIntegration.EnableCustomHierarchyIntegration();
+                CustomHierarchyIntegrationEnabled = true;
+            }
         }
     }
 }

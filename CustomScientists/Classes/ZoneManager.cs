@@ -84,6 +84,8 @@ namespace Mistaken.CustomScientists.Classes
         protected override void RoleAdded(Player player)
         {
             base.RoleAdded(player);
+            if(PluginHandler.CustomHierarchyIntegrationEnabled)
+                CustomHierarchyIntegration.UpdateHierarchy(player);
             MEC.Timing.CallDelayed(1f, () =>
             {
                 player.Position = API.Utilities.Room.Get(Room.List.First(x => x.Type == RoomType.LczClassDSpawn)).Neighbors[0].ExiledRoom.Position + (Vector3.up * 2f);

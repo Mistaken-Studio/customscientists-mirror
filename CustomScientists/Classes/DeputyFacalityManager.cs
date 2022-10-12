@@ -80,7 +80,8 @@ namespace Mistaken.CustomScientists.Classes
         public override void AddRole(Player player)
         {
             base.AddRole(player);
-
+            if(PluginHandler.CustomHierarchyIntegrationEnabled)
+                CustomHierarchyIntegration.UpdateHierarchy(player);
             if (escapeLock?.Base == null)
             {
                 UnityEngine.Debug.LogError("Tried to spawn null object for DeputyFacilityManager");

@@ -5,6 +5,8 @@
 // -----------------------------------------------------------------------
 
 using Exiled.API.Features;
+using MEC;
+using Mistaken.CustomHierarchy;
 using static Mistaken.CustomHierarchy.HierarchyHandler;
 
 #pragma warning disable SA1118 // Parameter should not span multiple lines
@@ -73,6 +75,11 @@ namespace Mistaken.CustomScientists
                 }));
 
             Log.Debug("Enabled CustomHierarchy integration.", PluginHandler.Instance.Config.VerbouseOutput);
+        }
+
+        internal static void UpdateHierarchy(Player p)
+        {
+            HierarchyHandler.UpdatePlayer(p);
         }
     }
 }
