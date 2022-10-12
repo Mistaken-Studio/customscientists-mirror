@@ -34,6 +34,7 @@ namespace Mistaken.CustomScientists
                     Log.Debug(Classes.ZoneManager.Instance.TrackedPlayers.Count);
                     Log.Debug($"Player 1: {p1.Nickname} is FM: {p1c} and ZM: {p1z}", PluginHandler.Instance.Config.VerbouseOutput);
                     Log.Debug($"Player 2: {p2.Nickname} is FM: {p2c} and ZM: {p2z}", PluginHandler.Instance.Config.VerbouseOutput);
+
                     // Log.Debug($"Player 1 is Deputy Facality Manager: {p1c}", PluginHandler.Instance.Config.VerbouseOutput);
                     // Log.Debug($"Player 2 is Deputy Facality Manager: {p2c}", PluginHandler.Instance.Config.VerbouseOutput);
                     // Log.Debug($"Player 1 is Zone Manager: {p1z}", PluginHandler.Instance.Config.VerbouseOutput);
