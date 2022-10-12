@@ -30,10 +30,7 @@ namespace Mistaken.CustomScientists
                     var p2c = Classes.DeputyFacalityManager.Instance.Check(p2);
                     var p1z = Classes.ZoneManager.Instance.Check(p1);
                     var p2z = Classes.ZoneManager.Instance.Check(p2);
-                    Log.Debug(Classes.DeputyFacalityManager.Instance.TrackedPlayers.Count);
-                    Log.Debug(Classes.ZoneManager.Instance.TrackedPlayers.Count);
-                    Log.Debug($"Player 1: {p1.Nickname} is FM: {p1c} and ZM: {p1z}", PluginHandler.Instance.Config.VerbouseOutput);
-                    Log.Debug($"Player 2: {p2.Nickname} is FM: {p2c} and ZM: {p2z}", PluginHandler.Instance.Config.VerbouseOutput);
+
 
                     // Log.Debug($"Player 1 is Deputy Facality Manager: {p1c}", PluginHandler.Instance.Config.VerbouseOutput);
                     // Log.Debug($"Player 2 is Deputy Facality Manager: {p2c}", PluginHandler.Instance.Config.VerbouseOutput);
