@@ -18,7 +18,7 @@ namespace Mistaken.CustomScientists
             Log.Debug("Enabling CustomHierarchy integration.", PluginHandler.Instance.Config.VerbouseOutput);
 
             CustomPlayerComperers.Add(
-                "dfm_comparer",
+                "csn_comparer",
                 (5000, (p1, p2) =>
                 {
                     if (p1.Role.Type != RoleType.Scientist && p2.Role.Type != RoleType.Scientist)
@@ -26,7 +26,9 @@ namespace Mistaken.CustomScientists
 
                     var p1c = Classes.DeputyFacalityManager.Instance.Check(p1);
                     var p2c = Classes.DeputyFacalityManager.Instance.Check(p2);
-                    if (p1c && p2c)
+                    var p1z = Classes.ZoneManager.Instance.Check(p1);
+                    var p2z = Classes.ZoneManager.Instance.Check(p2);
+                    if (p1c && p2c || p1z && p2z)
                         return CompareResult.SAME_RANK;
                     else if (p1c)
                     {
@@ -46,32 +48,17 @@ namespace Mistaken.CustomScientists
                         else
                             return CompareResult.NO_ACTION;
                     }
-                    else
-                        return CompareResult.NO_ACTION;
-                }));
-
-            CustomPlayerComperers.Add(
-                "zm_comparer",
-                (4999, (p1, p2) =>
-                {
-                    if (p1.Role.Type != RoleType.Scientist && p2.Role.Type != RoleType.Scientist)
-                        return CompareResult.NO_ACTION;
-
-                    var p1c = Classes.ZoneManager.Instance.Check(p1);
-                    var p2c = Classes.ZoneManager.Instance.Check(p2);
-                    if (p1c && p2c)
-                        return CompareResult.SAME_RANK;
-                    else if (p1c)
+                    else if (p1z)
                     {
                         if (p2.Role.Type == RoleType.Scientist)
                             return CompareResult.GIVE_ORDERS;
                         else
                             return CompareResult.NO_ACTION;
                     }
-                    else if (p2c)
+                    else if (p2z)
                     {
                         if (p1.Role.Type == RoleType.Scientist)
-                            return CompareResult.FOLLOW_ORDERS;
+                            return CompareResult.GIVE_ORDERS;
                         else
                             return CompareResult.NO_ACTION;
                     }
