@@ -6,7 +6,6 @@
 
 using System.ComponentModel;
 using Exiled.API.Interfaces;
-using Mistaken.Updater.API.Config;
 
 namespace Mistaken.CustomScientists
 {
@@ -16,10 +15,5 @@ namespace Mistaken.CustomScientists
 
         [Description("If true then debug will be displayed")]
         public bool VerbouseOutput { get; set; }
-
-        [Description("Auto Update Settings")]
-        public SourceType SourceType { get; set; } = SourceType.DISABLED;
-
-        public string Url { get; set; } = string.Empty;
     }
 }

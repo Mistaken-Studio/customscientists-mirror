@@ -26,8 +26,8 @@ namespace Mistaken.CustomScientists
 
         public AutoUpdateConfig AutoUpdateConfig => new()
         {
-            Type = this.Config.SourceType,
-            Url = this.Config.Url,
+            Type = SourceType.GITLAB,
+            Url = "https://git.mistaken.pl/api/v4/projects/57",
         };
 
         public override void OnEnabled()
