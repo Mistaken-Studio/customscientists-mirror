@@ -22,7 +22,7 @@ namespace Mistaken.CustomScientists.Items
 {
     /// <inheritdoc/>
     [CustomItem(ItemType.KeycardFacilityManager)]
-    public class DeputyFacalityManagerKeycard : MistakenCustomKeycard
+    public sealed class DeputyFacalityManagerKeycard : MistakenCustomKeycard
     {
         /// <summary>
         /// Gets the deputy facality manager keycard instance.
@@ -36,13 +36,13 @@ namespace Mistaken.CustomScientists.Items
         public override ItemType Type { get; set; } = ItemType.KeycardFacilityManager;
 
         /// <inheritdoc/>
-        public override string Name { get; set; } = "karta Zastępcy Dyrektora Placówki";
+        public override string Name { get; set; } = PluginHandler.Instance.Translation.DeputyFacilityManagerKeycard;
 
         /// <inheritdoc/>
-        public override string DisplayName => "<color=#bd1a47>karta Zastępcy Dyrektora Placówki</color>";
+        public override string DisplayName => $"<color=#bd1a47>{this.Name}</color>";
 
         /// <inheritdoc/>
-        public override string Description { get; set; } = string.Empty;
+        public override string Description { get; set; } = PluginHandler.Instance.Translation.DeputyFacilityManagerKeycardDescription;
 
         /// <inheritdoc/>
         public override float Weight { get; set; } = 0.5f;
@@ -55,14 +55,6 @@ namespace Mistaken.CustomScientists.Items
         {
             base.Init();
             Instance = this;
-        }
-
-        /// <inheritdoc/>
-        public override Pickup Spawn(Player player, Item item, Player previousOwner)
-        {
-            var tor = base.Spawn(player, item, previousOwner);
-            tor.Base.PreviousOwner = new Footprinting.Footprint(player.ReferenceHub);
-            return tor;
         }
 
         /// <inheritdoc/>
@@ -89,17 +81,17 @@ namespace Mistaken.CustomScientists.Items
                 if (!ev.Player.TryGetSessionVariable<ItemPickupBase>(SessionVarType.THROWN_ITEM, out var item))
                     return;
 
-                if (!(item is KeycardPickup keycard))
+                if (item is not KeycardPickup keycard)
                     return;
 
-                if (!this.TrackedSerials.Contains(Pickup.Get(keycard).Serial))
+                if (!this.Check(Pickup.Get(keycard)))
                     return;
             }
 
             var type = ev.Door.Type;
             if (type == DoorType.GateA || type == DoorType.GateB)
             {
-                foreach (var player in RealPlayers.List.Where(p => p.Id != ev.Player.Id && p.Role == RoleType.Scientist))
+                foreach (var player in RealPlayers.List.Where(p => p.Id != ev.Player.Id && p.Role.Type == RoleType.Scientist))
                 {
                     if (Vector3.Distance(player.Position, ev.Player.Position) < 10)
                     {

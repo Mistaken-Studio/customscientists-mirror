@@ -11,6 +11,7 @@
     <RootNamespace>Mistaken.CustomScientists</RootNamespace>
     <AssemblyName>Mistaken.CustomScientists</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>9.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -64,12 +65,12 @@
     <Compile Include="Classes\DeputyFacalityManager.cs" />
     <Compile Include="Classes\ZoneManager.cs" />
     <Compile Include="CustomHierarchyIntegration.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Items\DeputyFacalityManagerKeycard.cs" />
     <Compile Include="Items\ZoneManagerKeycard.cs" />
     <Compile Include="PluginHandler.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Translations.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
