@@ -47,7 +47,7 @@ namespace Mistaken.CustomScientists.Classes
         public override bool RemovalKillsPlayer { get; set; } = false;
 
         /// <inheritdoc/>
-        public override List<string> Inventory { get; set; } = new ()
+        public override List<string> Inventory { get; set; } = new()
         {
             ItemType.Medkit.ToString(),
             ((int)API.CustomItems.MistakenCustomItems.ZONE_MANAGER_KEYCARD).ToString(),
@@ -87,7 +87,7 @@ namespace Mistaken.CustomScientists.Classes
             MEC.Timing.CallDelayed(1f, () =>
             {
                 player.Position = API.Utilities.Room.Get(Room.List.First(x => x.Type == RoomType.LczClassDSpawn)).Neighbors[0].ExiledRoom.Position + (Vector3.up * 2f);
-                if(PluginHandler.CustomHierarchyIntegrationEnabled)
+                if (PluginHandler.CustomHierarchyIntegrationEnabled)
                     CustomHierarchyIntegration.UpdateHierarchy(player);
             });
         }

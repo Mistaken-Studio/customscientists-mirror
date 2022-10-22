@@ -48,7 +48,7 @@ namespace Mistaken.CustomScientists.Items
         public override float Weight { get; set; } = 0.5f;
 
         /// <inheritdoc/>
-        public override SpawnProperties SpawnProperties { get; set; } = new SpawnProperties();
+        public override SpawnProperties SpawnProperties { get; set; } = new();
 
         /// <inheritdoc/>
         public override void Init()

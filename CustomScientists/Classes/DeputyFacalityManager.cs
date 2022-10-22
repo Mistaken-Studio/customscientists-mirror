@@ -80,15 +80,17 @@ namespace Mistaken.CustomScientists.Classes
         public override void AddRole(Player player)
         {
             base.AddRole(player);
-            if(PluginHandler.CustomHierarchyIntegrationEnabled)
+
+            if (PluginHandler.CustomHierarchyIntegrationEnabled)
                 CustomHierarchyIntegration.UpdateHierarchy(player);
-            if (escapeLock?.Base == null)
+
+            if (_escapeLock?.AdminToyBase == null)
             {
                 UnityEngine.Debug.LogError("Tried to spawn null object for DeputyFacilityManager");
                 return;
             }
 
-            Server.SendSpawnMessage.Invoke(null, new object[] { escapeLock.Base.netIdentity, player.Connection, });
+            Server.SendSpawnMessage.Invoke(null, new object[] { _escapeLock.AdminToyBase.netIdentity, player.Connection, });
         }
 
         /// <inheritdoc/>
@@ -97,6 +99,7 @@ namespace Mistaken.CustomScientists.Classes
             base.SubscribeEvents();
             Exiled.Events.Handlers.Server.WaitingForPlayers += this.Server_WaitingForPlayers;
             Exiled.Events.Handlers.Player.Escaping += this.Player_Escaping;
+            Exiled.Events.Handlers.Player.Verified += this.Player_Verified;
             Exiled.Events.Handlers.Server.RoundStarted += this.Server_RoundStarted;
             Exiled.Events.Handlers.Map.Decontaminating += this.Map_Decontaminating;
         }
@@ -107,20 +110,21 @@ namespace Mistaken.CustomScientists.Classes
             base.UnsubscribeEvents();
             Exiled.Events.Handlers.Server.WaitingForPlayers -= this.Server_WaitingForPlayers;
             Exiled.Events.Handlers.Player.Escaping -= this.Player_Escaping;
+            Exiled.Events.Handlers.Player.Verified -= this.Player_Verified;
             Exiled.Events.Handlers.Server.RoundStarted -= this.Server_RoundStarted;
             Exiled.Events.Handlers.Map.Decontaminating -= this.Map_Decontaminating;
         }
 
-        private static Primitive escapeLock;
+        private static Primitive _escapeLock;
 
         private void Server_WaitingForPlayers()
         {
-            if (escapeLock?.Base != null)
+            if (_escapeLock?.AdminToyBase != null)
                 return;
 
-            escapeLock = Primitive.Create(new Vector3(170.15f, 986f, 20f), new Vector3(0f, 0f, 90f), new Vector3(6f, 4f, 1f), false);
-            escapeLock.Type = PrimitiveType.Quad;
-            escapeLock.Color = new Color(255f, 255f, 255f, 53f);
+            _escapeLock = Primitive.Create(new Vector3(170.15f, 986f, 20f), new Vector3(0f, 0f, 90f), new Vector3(6f, 4f, 1f), true);
+            _escapeLock.Type = PrimitiveType.Quad;
+            _escapeLock.Color = new Color(1f, 1f, 1f, 0.53f);
 
             void OnEnter(Player player)
             {
@@ -148,9 +152,20 @@ namespace Mistaken.CustomScientists.Classes
             ev.IsAllowed = false;
         }
 
+        private void Player_Verified(Exiled.Events.EventArgs.VerifiedEventArgs ev)
+        {
+            if (_escapeLock?.AdminToyBase == null)
+                return;
+
+            if (!ev.Player.IsConnected())
+                return;
+
+            ev.Player.Connection.Send(new ObjectDestroyMessage() { netId = _escapeLock.AdminToyBase.netId });
+        }
+
         private void Map_Decontaminating(Exiled.Events.EventArgs.DecontaminatingEventArgs ev)
         {
-            if (escapeLock?.Base == null)
+            if (_escapeLock?.AdminToyBase == null)
             {
                 UnityEngine.Debug.LogError("Tried to remove null object for DeputyFacilityManagers");
                 return;
@@ -161,7 +176,7 @@ namespace Mistaken.CustomScientists.Classes
                 if (!player.IsConnected())
                     continue;
 
-                player.Connection.Send(new ObjectDestroyMessage() { netId = escapeLock.Base.netId });
+                player.Connection.Send(new ObjectDestroyMessage() { netId = _escapeLock.AdminToyBase.netId });
                 player.SetGUI("DeputyFacilityManager_InformDecontamination", PseudoGUIPosition.TOP, "<size=150%>Zostały tobie nadane dodatkowe uprawnienia</size>", 10f);
             }
         }
@@ -171,6 +186,7 @@ namespace Mistaken.CustomScientists.Classes
             Timing.CallDelayed(1.3f, () =>
             {
                 var scientists = RealPlayers.Get(RoleType.Scientist).ToArray();
+
                 if (scientists.Length < 3)
                     return;
 

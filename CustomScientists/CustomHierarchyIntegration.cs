@@ -5,7 +5,6 @@
 // -----------------------------------------------------------------------
 
 using Exiled.API.Features;
-using MEC;
 using Mistaken.CustomHierarchy;
 using static Mistaken.CustomHierarchy.HierarchyHandler;
 
@@ -36,7 +35,7 @@ namespace Mistaken.CustomScientists
                     // Log.Debug($"Player 1 is Zone Manager: {p1z}", PluginHandler.Instance.Config.VerbouseOutput);
                     // Log.Debug($"Player 2 is Zone Manager: {p2z}", PluginHandler.Instance.Config.VerbouseOutput);
 
-                    if (p1c && p2c || p1z && p2z)
+                    if ((p1c && p2c) || (p1z && p2z))
                         return CompareResult.SAME_RANK;
                     else if (p1c)
                     {
