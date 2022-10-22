@@ -8,7 +8,7 @@ using Exiled.API.Interfaces;
 
 namespace Mistaken.CustomScientists
 {
-    internal class Translations : ITranslation
+    internal sealed class Translations : ITranslation
     {
         public string DeputyFacilityManager { get; set; } = "Zastępca Dyrektora Placówki";
 
