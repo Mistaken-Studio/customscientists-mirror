@@ -121,7 +121,6 @@ namespace Mistaken.CustomScientists.Classes
             escapeLock = Primitive.Create(new Vector3(170.15f, 986f, 20f), new Vector3(0f, 0f, 90f), new Vector3(6f, 4f, 1f), false);
             escapeLock.Type = PrimitiveType.Quad;
             escapeLock.Color = new Color(255f, 255f, 255f, 53f);
-            escapeLock.Collidable = true;
 
             void OnEnter(Player player)
             {
