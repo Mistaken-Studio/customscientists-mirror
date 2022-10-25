@@ -92,6 +92,22 @@ namespace Mistaken.CustomScientists.Classes
         }
 
         /// <inheritdoc/>
+        protected override void RoleRemoved(Player player)
+        {
+            base.RoleRemoved(player);
+            if (_escapeLock?.AdminToyBase == null)
+            {
+                UnityEngine.Debug.LogError("Tried to despawn null object for DeputyFacilityManager");
+                return;
+            }
+
+            if (!player.IsConnected())
+                return;
+
+            player.Connection.Send(new ObjectDestroyMessage() { netId = _escapeLock.AdminToyBase.netId });
+        }
+
+        /// <inheritdoc/>
         protected override void SubscribeEvents()
         {
             base.SubscribeEvents();
@@ -165,7 +181,7 @@ namespace Mistaken.CustomScientists.Classes
         {
             if (_escapeLock?.AdminToyBase == null)
             {
-                UnityEngine.Debug.LogError("Tried to remove null object for DeputyFacilityManagers");
+                UnityEngine.Debug.LogError("Tried to despawn null object for DeputyFacilityManagers");
                 return;
             }
 
