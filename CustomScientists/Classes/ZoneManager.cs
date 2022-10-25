@@ -50,8 +50,8 @@ namespace Mistaken.CustomScientists.Classes
         public override List<string> Inventory { get; set; } = new()
         {
             ItemType.Medkit.ToString(),
+            ItemType.Radio.ToString(),
             ((int)API.CustomItems.MistakenCustomItems.ZONE_MANAGER_KEYCARD).ToString(),
-            ((int)API.CustomItems.MistakenCustomItems.SNAV_3000).ToString(),
         };
 
         /// <inheritdoc/>
@@ -84,7 +84,7 @@ namespace Mistaken.CustomScientists.Classes
         protected override void RoleAdded(Player player)
         {
             base.RoleAdded(player);
-            MEC.Timing.CallDelayed(1f, () =>
+            MEC.Timing.CallDelayed(1.6f, () =>
             {
                 player.Position = API.Utilities.Room.Get(Room.List.First(x => x.Type == RoomType.LczClassDSpawn)).Neighbors[0].ExiledRoom.Position + (Vector3.up * 2f);
                 if (PluginHandler.CustomHierarchyIntegrationEnabled)
