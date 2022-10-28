@@ -49,9 +49,11 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         public override List<string> Inventory { get; set; } = new()
         {
-            ItemType.Medkit.ToString(),
+            ItemType.KeycardZoneManager.ToString(),
             ItemType.Radio.ToString(),
-            ((int)API.CustomItems.MistakenCustomItems.ZONE_MANAGER_KEYCARD).ToString(),
+            ItemType.Medkit.ToString(),
+
+            // ((int)API.CustomItems.MistakenCustomItems.ZONE_MANAGER_KEYCARD).ToString(),
         };
 
         /// <inheritdoc/>

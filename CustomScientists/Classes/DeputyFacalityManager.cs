@@ -59,9 +59,9 @@ namespace Mistaken.CustomScientists.Classes
         /// <inheritdoc/>
         public override List<string> Inventory { get; set; } = new()
         {
-            ItemType.Medkit.ToString(),
             ((int)API.CustomItems.MistakenCustomItems.DEPUTY_FACILITY_MANAGER_KEYCARD).ToString(),
             ((int)API.CustomItems.MistakenCustomItems.SNAV_3000).ToString(),
+            ItemType.Medkit.ToString(),
         };
 
         /// <inheritdoc/>

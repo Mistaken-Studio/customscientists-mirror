@@ -62,6 +62,7 @@ namespace Mistaken.CustomScientists.Items
         {
             base.SubscribeEvents();
             Exiled.Events.Handlers.Player.InteractingDoor += this.Player_InteractingDoor;
+            Exiled.Events.Handlers.Player.ActivatingWarheadPanel += this.Player_ActivatingWarheadPanel;
         }
 
         /// <inheritdoc/>
@@ -69,6 +70,7 @@ namespace Mistaken.CustomScientists.Items
         {
             base.UnsubscribeEvents();
             Exiled.Events.Handlers.Player.InteractingDoor -= this.Player_InteractingDoor;
+            Exiled.Events.Handlers.Player.ActivatingWarheadPanel -= this.Player_ActivatingWarheadPanel;
         }
 
         private void Player_InteractingDoor(InteractingDoorEventArgs ev)
@@ -89,25 +91,31 @@ namespace Mistaken.CustomScientists.Items
             }
 
             var type = ev.Door.Type;
+
             if (type == DoorType.GateA || type == DoorType.GateB)
             {
-                foreach (var player in RealPlayers.List.Where(p => p.Id != ev.Player.Id && p.Role.Type == RoleType.Scientist))
+                bool isScientistClose = RealPlayers.List.Any((x) =>
                 {
-                    if (Vector3.Distance(player.Position, ev.Player.Position) < 10)
-                    {
-                        ev.IsAllowed = true;
-                        return;
-                    }
-                }
+                    return x.Id != ev.Player.Id && x.Role.Type == RoleType.Scientist && Vector3.Distance(x.Position, ev.Player.Position) < 10f;
+                });
 
-                ev.IsAllowed = false;
-                return;
+                ev.IsAllowed = isScientistClose;
             }
-            else if (type == DoorType.NukeSurface || type == DoorType.Scp106Primary || type == DoorType.Scp106Secondary)
+            else if (type == DoorType.Scp106Primary || type == DoorType.Scp106Secondary)
             {
                 ev.IsAllowed = false;
-                return;
             }
+        }
+
+        private void Player_ActivatingWarheadPanel(ActivatingWarheadPanelEventArgs ev)
+        {
+            if (Map.IsLczDecontaminated)
+                return;
+
+            if (!this.Check(ev.Player.CurrentItem))
+                return;
+
+            ev.IsAllowed = false;
         }
     }
 }
