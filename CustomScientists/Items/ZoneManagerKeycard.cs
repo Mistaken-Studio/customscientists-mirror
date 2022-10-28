@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using Exiled.API.Features.Attributes;
+/*using Exiled.API.Features.Attributes;
 using Exiled.API.Features.Spawn;
 using Mistaken.API.CustomItems;
 
@@ -47,4 +47,4 @@ namespace Mistaken.CustomScientists.Items
             Instance = this;
         }
     }
-}
+}*/
